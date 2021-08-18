@@ -1,0 +1,6 @@
+black
+coverage
+coveralls != 1.11.0
+IPython
+pytest
+pytest-cov
