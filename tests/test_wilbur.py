@@ -10,9 +10,10 @@ sys.path.append(".")
 from wilbur import (
     clean_empty_password,
     get_password_length,
-    password_complexity,
-    password_reuse,
-    username_password_match,
+    output_metrix,
+    get_password_complexity,
+    get_password_reuse,
+    get_username_password_match,
 )
 
 
@@ -34,9 +35,13 @@ class TestWilbur:
         """Test the get password length method."""
         assert get_password_length(match_list) == {8: 4, 3: 2, 12: 1, 6: 1, 11: 1, 5: 1}
 
-    def test_password_reuse(self, match_list):
+    def test_output_metrix(self, example_output_list, match_list):
+        """Test the output metrix method."""
+        assert output_metrix(match_list, 5) == example_output_list
+
+    def test_get_password_reuse(self, match_list):
         """Test the password reuse method."""
-        assert password_reuse(match_list, 5) == [
+        assert get_password_reuse(match_list, 5) == [
             ("p@ssword", 4),
             ("doe", 2),
             ("YellowFin32!", 1),
@@ -44,13 +49,13 @@ class TestWilbur:
             ("YankyRoad1@", 1),
         ]
 
-    def test_password_complexity(self, match_list):
+    def test_get_password_complexity(self, match_list):
         """Test the password complexity method."""
-        assert password_complexity(match_list) == {1: 2, 2: 1, 3: 1, 4: 2}
+        assert get_password_complexity(match_list) == {1: 2, 2: 1, 3: 1, 4: 2}
 
-    def test_username_password_match(self, match_list):
+    def test_get_username_password_match(self, match_list):
         """Test the username password match method."""
-        assert username_password_match(match_list) == [
+        assert get_username_password_match(match_list) == [
             {
                 "user": "admin",
                 "hash": "21232f297a57a5a743894a0e4a801fc3",
