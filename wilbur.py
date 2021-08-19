@@ -49,7 +49,7 @@ def clean_empty_password(matchs):
     return clean_match
 
 
-def password_complexity(matchs):
+def get_password_complexity(matchs):
     """Return a list of tuples for the complexity of each password."""
     passwords = dict()
     for match in clean_empty_password(matchs):
@@ -70,18 +70,6 @@ def password_complexity(matchs):
     return complexity
 
 
-def username_password_match(matchs):
-    """Return a count of instances where username and password match."""
-
-    user_pass_match_list = list()
-
-    for match in matchs:
-        if match["user"] == match["password"]:
-            user_pass_match_list.append(match)
-
-    return user_pass_match_list
-
-
 def get_password_length(matchs):
     """Return a dict of password length and the count of that length."""
     length_count = dict()
@@ -98,19 +86,68 @@ def get_password_length(matchs):
     return length_count
 
 
-def password_reuse(matchs, num):
+def get_password_reuse(matchs, num):
     """Returns a list of tuples for the num highest password reuses. """
     passwords = dict()
     for match in clean_empty_password(matchs):
-        if f'<{match["password"]}> {match["hash"]}' in passwords.keys():
-            passwords[f'<{match["password"]}> {match["hash"]}'] += 1
+        if f'{match["password"]}' in passwords.keys():
+            passwords[f'{match["password"]}'] += 1
         else:
-            passwords[f'<{match["password"]}> {match["hash"]}'] = 1
+            passwords[f'{match["password"]}'] = 1
 
     return take(
         num,
         dict(sorted(passwords.items(), key=lambda item: item[1], reverse=True)).items(),
     )
+
+
+def get_username_password_match(matchs):
+    """Return a count of instances where username and password match."""
+
+    user_pass_match_list = list()
+
+    for match in matchs:
+        if match["user"] == match["password"]:
+            user_pass_match_list.append(match)
+
+    return user_pass_match_list
+
+
+def output_metrix(matchs, num):
+    """Out puts the metrix to a markdown file."""
+
+    output_list = []
+
+    # Builds the Complexit count table.
+    output_list.append("|Complexity|Count|")
+    output_list.append("|--|--|")
+
+    complexities = get_password_complexity(matchs)
+    for complexity, count in complexities.items():
+        output_list.append(f"|{complexity}|{count}|")
+
+    # Build password reuse list.
+    get_password_reuse(matchs, num)
+
+    output_list.append(f"<br>The top {num} passwords:")
+    output_list.append("")
+    output_list.append("|Count|Password|")
+    output_list.append("|--|--|")
+    reused_passwords = get_password_reuse(matchs, num)
+    for password in reused_passwords:
+
+        output_list.append(f"|{password[1]}|{password[0]}|")
+    
+    output_list.append("<br>The password lengths:")
+    output_list.append("")
+    output_list.append("|Length|Count|")
+    output_list.append("|--|--|")
+
+    password_length_dict = get_password_length(matchs)
+    for length, count in password_length_dict.items():
+        output_list.append(f"|{length}|{count}|")
+
+    return output_list
 
 
 def main():
@@ -136,6 +173,15 @@ def main():
         default=10,
         type=int,
         help="Return the top number of password's that get reused.",
+    )
+
+    parser.add_argument(
+        "--same",
+        action="store",
+        dest="same",
+        default=False,
+        type=False,
+        help="Saves a list matching username and passwords.",
     )
 
     parser.add_argument(
@@ -174,20 +220,20 @@ def main():
         print()
         print('matchs saved to "matched.csv"')
         print()
+    
+    if args.same:
+        with open('save.txt', 'w') as fp:
+            for line in get_username_password_match(matchs):
+                fp.write(f'{line}\n')
 
-    print("The password complexity breakdown is:")
-    print("<complexity> <count>\n")
+        print('Matching username nad passwords asved to "same.txt"')
 
-    complexities = password_complexity(matchs)
-    for complexity, count in complexities.items():
-        print(f"{complexity} {count}")
+    print('The metrix saved to "metrix.md"')
 
-    print()
-    print(f"The top {args.reuse} passwords:")
-    print("<num>  <password>\n")
-    reused_passwords = password_reuse(matchs, args.reuse)
-    for password in reused_passwords:
-        print(f"{password[1]}  {password[0]}")
+    metrix_output_list = output_metrix(matchs, args.reuse)
+    with open('metrix.md', 'w') as fp:
+        for line in metrix_output_list:
+            fp.write(f'{line}\n') 
 
     print()
     print("Some people know things about the universe that nobody")

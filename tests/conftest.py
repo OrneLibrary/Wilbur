@@ -58,3 +58,34 @@ def match_list():
             "password": "admin",
         },
     ]
+
+@pytest.fixture
+def example_output_list():
+    """Return list of matched username, password, and hashes."""
+    return ['|Complexity|Count|',
+    '|--|--|',
+    '|1|2|',
+    '|2|1|',
+    '|3|1|',
+    '|4|2|',
+    '<br>The top 5 passwords:',
+    '',
+    '|Count|Password|',
+    '|--|--|',
+    '|4|p@ssword|',
+    '|2|doe|',
+    '|1|YellowFin32!|',
+    '|1|Wash3r|',
+    '|1|YankyRoad1@|',
+    '<br>The password lengths:',
+    '',
+    '|Length|Count|',
+    '|--|--|',
+    '|3|2|',
+    '|5|1|',
+    '|6|1|',
+    '|8|4|',
+    '|11|1|',
+    '|12|1|'
+    ]
+
