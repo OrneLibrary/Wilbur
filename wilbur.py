@@ -223,9 +223,7 @@ def main():
         print()
     
     if args.same:
-        with open('save.txt', 'w') as fp:
-            for line in get_username_password_match(matchs):
-                fp.write(f'{line}')
+        save_dict_to_csv(get_username_password_match(matchs))
 
         print('Matching username nad passwords asved to "same.txt"')
 
