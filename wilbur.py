@@ -2,10 +2,12 @@
 
 # Standard Python Libraries
 import argparse
+import collections
 import csv
 from itertools import islice
 
 SPECIAL_CHARACTER = """!@#$%^&*()-+?_=,<>/"""
+
 
 def take(n, iterable):
     "Return first n items of the iterable as a list"
@@ -17,12 +19,13 @@ def load_csv_to_dict(filename):
 
     _list = list()
     with open(filename, mode="r") as csv_file:
-        csv_reader = csv.DictReader(csv_file, delimiter=':')
+        csv_reader = csv.DictReader(csv_file, delimiter=":")
         _list = list()
         for row in csv_reader:
             _list.append(row)
 
     return _list
+
 
 def save_dict_to_csv(filename, _list):
     """Save list of dicts to csv"""
@@ -40,10 +43,11 @@ def clean_empty_password(matchs):
     """Cleans empty passwords from the matchs list."""
     clean_match = list()
     for match in matchs:
-        if match['password'] and match['password'] != "":
+        if match["password"] and match["password"] != "":
             clean_match.append(match)
 
     return clean_match
+
 
 def password_complexity(matchs):
     """Return a list of tuples for the complexity of each password."""
@@ -59,12 +63,28 @@ def password_complexity(matchs):
         if any(char in SPECIAL_CHARACTER for char in match["password"]):
             passwords[match["password"]] += 1
 
-
-    complexity = {1: 0, 2: 0, 3: 0, 4: 0}    
+    complexity = {1: 0, 2: 0, 3: 0, 4: 0}
     for count in passwords.values():
         complexity[count] += 1
-    
+
     return complexity
+
+
+def get_password_length(matchs):
+    """Return a dict of password length and the count of that length."""
+    length_count = dict()
+    for match in clean_empty_password(matchs):
+        password_length = len(match["password"])
+        if password_length in length_count.keys():
+            length_count[password_length] += 1
+        else:
+            length_count[password_length] = 1
+
+    # Orders list based on
+    length_count = collections.OrderedDict(sorted(length_count.items()))
+
+    return length_count
+
 
 def password_reuse(matchs, num):
     """Returns a list of tuples for the num highest password reuses. """
@@ -149,7 +169,7 @@ def main():
     complexities = password_complexity(matchs)
     for complexity, count in complexities.items():
         print(f"{complexity} {count}")
-    
+
     print()
     print(f"The top {args.reuse} passwords:")
     print("<num>  <password>\n")
