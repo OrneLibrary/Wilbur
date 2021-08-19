@@ -37,11 +37,11 @@ class TestWilbur:
     def test_password_reuse(self, match_list):
         """Test the password reuse method."""
         assert password_reuse(match_list, 5) == [
-            ("<p@ssword> d739c6021d574f5f19822feecae9db15", 4),
-            ("<doe> 4c604a4431bf49c1bdcd3b1f458efdd4", 2),
-            ("<YellowFin32!> 50f57adca07aca56d165aaf2d958e03c", 1),
-            ("<Wash3r> dc35d01a6d8140dd5bf978ea3ab7c3d2", 1),
-            ("<YankyRoad1@> fa19f8748a9b52a1138470b446969633", 1),
+            ("p@ssword", 4),
+            ("doe", 2),
+            ("YellowFin32!", 1),
+            ("Wash3r", 1),
+            ("YankyRoad1@", 1),
         ]
 
     def test_password_complexity(self, match_list):

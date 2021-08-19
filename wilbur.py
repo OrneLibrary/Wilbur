@@ -102,10 +102,10 @@ def password_reuse(matchs, num):
     """Returns a list of tuples for the num highest password reuses. """
     passwords = dict()
     for match in clean_empty_password(matchs):
-        if f'<{match["password"]}> {match["hash"]}' in passwords.keys():
-            passwords[f'<{match["password"]}> {match["hash"]}'] += 1
+        if f'{match["password"]}' in passwords.keys():
+            passwords[f'{match["password"]}'] += 1
         else:
-            passwords[f'<{match["password"]}> {match["hash"]}'] = 1
+            passwords[f'{match["password"]}'] = 1
 
     return take(
         num,
