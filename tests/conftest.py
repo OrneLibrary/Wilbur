@@ -52,4 +52,9 @@ def match_list():
             "hash": "fa19f8748a9b52a1138470b446969633",
             "password": "YankyRoad1@",
         },
+        {
+            "user": "admin",
+            "hash": "21232f297a57a5a743894a0e4a801fc3",
+            "password": "admin",
+        },
     ]

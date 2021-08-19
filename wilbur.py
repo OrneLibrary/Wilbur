@@ -70,6 +70,18 @@ def password_complexity(matchs):
     return complexity
 
 
+def username_password_match(matchs):
+    """Return a count of instances where username and password match."""
+
+    user_pass_match_list = list()
+
+    for match in matchs:
+        if match["user"] == match["password"]:
+            user_pass_match_list.append(match)
+
+    return user_pass_match_list
+
+
 def get_password_length(matchs):
     """Return a dict of password length and the count of that length."""
     length_count = dict()
