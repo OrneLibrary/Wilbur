@@ -171,11 +171,7 @@ def main():
         "--same",
         dest="same",
         action='store_true',
-<<<<<<< HEAD
         default=True,
-=======
-        default=False,
->>>>>>> 5325feed9477aa7788bcf2776945ea1f7a071f6e
         help="Saves a list matching username and passwords.",
     )
 
@@ -229,11 +225,7 @@ def main():
     if args.same:
         with open('save.txt', 'w') as fp:
             for line in get_username_password_match(matchs):
-<<<<<<< HEAD
                 fp.write(f'{line}')
-=======
-                fp.write(f'{line}\n')
->>>>>>> 5325feed9477aa7788bcf2776945ea1f7a071f6e
 
         print('Matching username nad passwords asved to "same.txt"')
 
@@ -242,11 +234,7 @@ def main():
     metrix_output_list = output_metrix(matchs, args.reuse)
     with open('metrix.md', 'w') as fp:
         for line in metrix_output_list:
-<<<<<<< HEAD
             fp.write(f'{line}') 
-=======
-            fp.write(f'{line}\n') 
->>>>>>> 5325feed9477aa7788bcf2776945ea1f7a071f6e
 
     print()
     print("Some people know things about the universe that nobody")
