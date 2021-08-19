@@ -160,28 +160,29 @@ def main():
 
     parser.add_argument(
         "--no-output",
-        type=bool,
+        action='store_true',
         dest="no_output",
         default=False,
         help="Prevent the output of matches.cvs.",
     )
 
     parser.add_argument(
-        "--reuse",
+        '-s',
+        "--same",
+        dest="same",
+        action='store_true',
+        default=False,
+        help="Saves a list matching username and passwords.",
+    )
+
+    parser.add_argument(
+        '-r',
+        '--reuse',
         action="store",
         dest="reuse",
         default=10,
         type=int,
         help="Return the top number of password's that get reused.",
-    )
-
-    parser.add_argument(
-        "--same",
-        action="store",
-        dest="same",
-        default=False,
-        type=False,
-        help="Saves a list matching username and passwords.",
     )
 
     parser.add_argument(
