@@ -223,7 +223,7 @@ def main():
         print()
     
     if args.same:
-        save_dict_to_csv(get_username_password_match(matchs))
+        save_dict_to_csv("same.csv", get_username_password_match(matchs))
 
         print('Matching username nad passwords asved to "same.txt"')
 
