@@ -10,7 +10,7 @@ sys.path.append(".")
 from wilbur import (
     clean_empty_password,
     get_password_length,
-    output_metrix,
+    output_metrics,
     get_password_complexity,
     get_password_reuse,
     get_username_password_match,
@@ -24,7 +24,7 @@ class TestWilbur:
         """Test the clean empty password."""
         match_list.append(
             {
-                "user": "You2",
+                "user": "domain2.local/You2",
                 "hash": "c8137e7842466aa292c143a9be887755",
                 "password": "",
             }
@@ -35,9 +35,9 @@ class TestWilbur:
         """Test the get password length method."""
         assert get_password_length(match_list) == {8: 4, 3: 2, 12: 1, 6: 1, 11: 1, 5: 1}
 
-    def test_output_metrix(self, example_output_list, match_list):
-        """Test the output metrix method."""
-        assert output_metrix(match_list, 5) == example_output_list
+    def test_output_metrics(self, example_output_list, match_list):
+        """Test the output metrics method."""
+        assert output_metrics(match_list, 5) == example_output_list
 
     def test_get_password_reuse(self, match_list):
         """Test the password reuse method."""
@@ -57,7 +57,7 @@ class TestWilbur:
         """Test the username password match method."""
         assert get_username_password_match(match_list) == [
             {
-                "user": "admin",
+                "user": "domain1.local\\admin",
                 "hash": "21232f297a57a5a743894a0e4a801fc3",
                 "password": "admin",
             },
