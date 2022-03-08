@@ -21,7 +21,7 @@ def match_list():
             "password": "doe",
         },
         {
-            "user": "domain1.local/John",
+            "user": "domain1.local\\John",
             "hash": "4c604a4431bf49c1bdcd3b1f458efdd4",
             "password": "doe",
         },
@@ -97,4 +97,22 @@ def example_output_list():
         "|8|4|",
         "|11|1|",
         "|12|1|",
+    ]
+
+
+@pytest.fixture
+def example_owned_output():
+    """Returns a list of owned user accounts with domain."""
+    return [
+        "Bill@domain1.local",
+        "Jane@domain1.local",
+        "John@domain1.local",
+        "Frank@domain2.local",
+        "Jill@domain2.local",
+        "Mike@domain2.local",
+        "John@domain1.local",
+        "Sam@domain1.local",
+        "You@domain2.local",
+        "Charlie@domain1.local",
+        "admin@domain1.local",
     ]

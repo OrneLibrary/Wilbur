@@ -14,6 +14,7 @@ from wilbur import (
     get_password_complexity,
     get_password_reuse,
     get_username_password_match,
+    output_owned,
 )
 
 
@@ -62,3 +63,7 @@ class TestWilbur:
                 "password": "admin",
             },
         ]
+
+    def test_output_owned(self, example_owned_output, match_list):
+        """Test the output owned method."""
+        assert output_owned(match_list) == example_owned_output
