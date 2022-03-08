@@ -152,6 +152,26 @@ def output_metrics(matchs, num):
     return output_list
 
 
+def output_owned(matchs):
+    """Retruns a list of owned usernames with domains.
+
+    Args:
+        matchs (_type_): _description_
+
+    Returns:
+        list(strings): Returns a list of usernames with domains
+        formated as username@domain.
+    """
+
+    owned_users = list()
+
+    for match in matchs:
+        split_user = match["user"].split("\\")
+        owned_users.append(f"{split_user[1]}@{split_user[0]}")
+
+    return owned_users
+
+
 def main():
     """Merge a list of user name with hashes and a list of password with hashes."""
     """Set up logging, connect to Postgres, call requested function(s)."""
@@ -229,11 +249,18 @@ def main():
 
         print('Matching username nad passwords saved to "same.txt"')
 
-    print('The cs saved to "metrics.md"')
+    print('The metrics saved to "metrics.md"')
 
     metrics_output_list = output_metrics(matchs, args.reuse)
     with open("metrics.md", "w") as fp:
         for line in metrics_output_list:
+            fp.write(f"{line}")
+
+    print('Owned users saved to "owned.txt"')
+
+    owned_output_list = output_owned(matchs)
+    with open("owned.txt", "w") as fp:
+        for line in owned_output_list:
             fp.write(f"{line}")
 
     print()
