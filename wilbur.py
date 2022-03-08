@@ -87,7 +87,7 @@ def get_password_length(matchs):
 
 
 def get_password_reuse(matchs, num):
-    """Returns a list of tuples for the num highest password reuses. """
+    """Returns a list of tuples for the num highest password reuses."""
     passwords = dict()
     for match in clean_empty_password(matchs):
         if f'{match["password"]}' in passwords.keys():
@@ -107,18 +107,20 @@ def get_username_password_match(matchs):
     user_pass_match_list = list()
 
     for match in matchs:
-        if match["user"] == match["password"]:
+        if "\\" in match["user"]:
+            username = match["user"].split("\\")[1]
+        if username == match["password"]:
             user_pass_match_list.append(match)
 
     return user_pass_match_list
 
 
-def output_metrix(matchs, num):
-    """Out puts the metrix to a markdown file."""
+def output_metrics(matchs, num):
+    """Out puts the metrics to a markdown file."""
 
     output_list = []
 
-    # Builds the Complexit count table.
+    # Builds the Complexity count table.
     output_list.append("|Complexity|Count|")
     output_list.append("|--|--|")
 
@@ -137,7 +139,7 @@ def output_metrix(matchs, num):
     for password in reused_passwords:
 
         output_list.append(f"|{password[1]}|{password[0]}|")
-    
+
     output_list.append("<br>The password lengths:")
     output_list.append("")
     output_list.append("|Length|Count|")
@@ -160,24 +162,24 @@ def main():
 
     parser.add_argument(
         "--no-output",
-        action='store_true',
+        action="store_true",
         dest="no_output",
         default=False,
         help="Prevent the output of matches.cvs.",
     )
 
     parser.add_argument(
-        '-s',
+        "-s",
         "--same",
         dest="same",
-        action='store_true',
+        action="store_true",
         default=True,
         help="Saves a list matching username and passwords.",
     )
 
     parser.add_argument(
-        '-r',
-        '--reuse',
+        "-r",
+        "--reuse",
         action="store",
         dest="reuse",
         default=10,
@@ -221,18 +223,18 @@ def main():
         print()
         print('matchs saved to "matched.csv"')
         print()
-    
+
     if args.same:
         save_dict_to_csv("same.csv", get_username_password_match(matchs))
 
-        print('Matching username nad passwords asved to "same.txt"')
+        print('Matching username nad passwords saved to "same.txt"')
 
-    print('The metrix saved to "metrix.md"')
+    print('The cs saved to "metrics.md"')
 
-    metrix_output_list = output_metrix(matchs, args.reuse)
-    with open('metrix.md', 'w') as fp:
-        for line in metrix_output_list:
-            fp.write(f'{line}') 
+    metrics_output_list = output_metrics(matchs, args.reuse)
+    with open("metrics.md", "w") as fp:
+        for line in metrics_output_list:
+            fp.write(f"{line}")
 
     print()
     print("Some people know things about the universe that nobody")
