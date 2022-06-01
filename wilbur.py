@@ -18,7 +18,7 @@ def load_csv_to_dict(filename):
     """Loads csv to list of dicts."""
 
     _list = list()
-    with open(filename, mode="r") as csv_file:
+    with open(filename, mode="r", encoding="utf-8") as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=":")
         _list = list()
         for row in csv_reader:
