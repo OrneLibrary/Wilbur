@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-slate-50 text-slate-900;
+}
+
+.card {
+  @apply rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200;
+}
